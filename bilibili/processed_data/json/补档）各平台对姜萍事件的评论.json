@@ -1,0 +1,55 @@
+{
+    "0": {
+        "time": 1730813057,
+        "content": "该说不说，知乎上质疑派还是算占了上风的",
+        "parent_id": null,
+        "son_ids": [],
+        "likes": 6
+    },
+    "1": {
+        "time": 1730804386,
+        "content": "幽默红厕所[笑哭]",
+        "parent_id": null,
+        "son_ids": [
+            2
+        ],
+        "likes": 6
+    },
+    "2": {
+        "time": 1730806350,
+        "content": "它后面的明显不是小红书，是微信视频啊……",
+        "parent_id": 1,
+        "son_ids": [],
+        "likes": 0
+    },
+    "3": {
+        "time": 1732035476,
+        "content": "还得是贴吧，最纯粹的攻击性??",
+        "parent_id": null,
+        "son_ids": [],
+        "likes": 1
+    },
+    "4": {
+        "time": 1730903721,
+        "content": "攻击力还得是吧友[doge][笑哭]",
+        "parent_id": null,
+        "son_ids": [],
+        "likes": 1
+    },
+    "5": {
+        "time": 1732614262,
+        "content": "中间打码的是什么？私发给我。[吃瓜][吃瓜]",
+        "parent_id": null,
+        "son_ids": [
+            6
+        ],
+        "likes": 0
+    },
+    "6": {
+        "time": 1732634900,
+        "content": "根本没啥，就是“姜王博士”这样的玩笑，不知道睿站怎么不给过[无语]",
+        "parent_id": 5,
+        "son_ids": [],
+        "likes": 0
+    }
+}
