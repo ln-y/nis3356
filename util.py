@@ -9,6 +9,9 @@ class Comment:
     son_ids : list[int] # 子评论索引
     likes : int # 该评论的点赞数
 
+    def __str__(self):
+        return f"Comment:\ntime={self.time}\ncontent={self.content}\nparent_id={self.parent_id}\nson_ids={self.son_ids}\nlikes={self.likes}"
+
 # 每个评论/帖子的所有评论应该被放置在一个列表中。父、子评论索引即为其在该列表中的索引。
 PostComments = list[Comment]
 
@@ -19,3 +22,18 @@ def load_post_comments(file_path: str) -> PostComments:
 def save_post_comments(file_path: str, post_comments: PostComments):
     with open(file_path, "wb") as f:
         pickle.dump(post_comments, f)
+
+def check_your_data(file_path: str):
+    post_comments = load_post_comments(file_path)
+    assert isinstance(post_comments, list)
+    assert isinstance(post_comments[0], Comment)
+    print("type check passed!\nyour comments[0] are:")
+    print(post_comments[0])
+    
+
+if __name__ == "__main__":
+    # please check your data before upload
+    import os
+    work_dir = os.path.dirname(__file__)
+    data_path = os.path.join(work_dir, r"douyin\douyin\processed_data\pkl\7380262636904041768.pkl")
+    check_your_data(data_path)
