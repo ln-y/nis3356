@@ -15,16 +15,25 @@ def read_word_counts_from_file(file_path):
     return word_counter
 
 # 将合并后的词频统计结果写入文件
+# def write_word_counts_to_file(word_counts, output_file_path):
+#     with open(output_file_path, 'w', encoding='utf-8') as f:
+#         for word,count in word_counts.items():
+#             if word.strip():  # 去除空格或其他无用字符
+#                 f.write(f"'{word}': {count}\n")
 def write_word_counts_to_file(word_counts, output_file_path):
+    # 对字典按照 count 进行降序排序
+    sorted_word_counts = sorted(word_counts.items(), key=lambda x: x[1], reverse=True)
+    
     with open(output_file_path, 'w', encoding='utf-8') as f:
-        for word,count in word_counts.items():
+        for word, count in sorted_word_counts:
             if word.strip():  # 去除空格或其他无用字符
                 f.write(f"'{word}': {count}\n")
 
+
 # 主函数
 def main():
-    input_file_path = r'word_freq\douyin\word_counts.txt'  # 你的输入文件路径
-    output_file_path = r'word_freq\douyin\merged_word_counts.txt'  # 输出文件路径
+    input_file_path = r'word_freq\bilibili\merged_word_counts.txt'  # 你的输入文件路径
+    output_file_path = r'word_freq\bilibili\top_k.txt'  # 输出文件路径
     
     # 读取并合并词频
     word_counts = read_word_counts_from_file(input_file_path)
