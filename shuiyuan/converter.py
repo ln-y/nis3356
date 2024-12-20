@@ -40,18 +40,18 @@ def convert(data_list) -> PostComments:
         created_at = datetime.strptime(data['created_at'], '%Y-%m-%dT%H:%M:%S.%fZ').timestamp()
         content = data['raw']
         try:
-            parent_id = data['reply_to_post_number']
-        except KeyError:
+            parent_id = data['reply_to_post_number'] - 1
+        except Exception:
             parent_id = None
         likes = data['likes']
-        comment = Comment(len(comment_list), created_at, content, parent_id, likes)
+        comment = Comment(created_at, content, parent_id, likes)
         comment_list.append(comment)
         comment_dict[len(comment_list) - 1] = comment
-    for comment in comment_list:
+    for i, comment in enumerate(comment_list):
         if comment.parent_id is not None:
             parent_comment = comment_dict.get(comment.parent_id)
             if parent_comment:
-                parent_comment.son_ids.append(comment.id)
+                parent_comment.son_ids.append(i)
     return comment_list
 
 post_list = [
@@ -83,9 +83,9 @@ post_list = [
 def main():
     for post in post_list:
         post_id = post["id"]
-        post_data = load_json_file(f'shuiyuan/data/{post_id}.json')
+        post_data = load_json_file(f'data/{post_id}.json')
         comment_data = convert(post_data)
-        save_post_comments(f'shuiyuan/data/{post_id}.pkl', comment_data)
+        save_post_comments(f'data/{post_id}.pkl', comment_data)
         print(f"Successfully converted data from post {post_id} and saved to {post_id}.pkl")
 
 if __name__ == "__main__":
