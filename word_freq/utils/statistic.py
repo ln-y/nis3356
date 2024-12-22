@@ -23,8 +23,8 @@ def write_word_counts_to_file(word_counts, output_file_path):
 
 # 主函数
 def main():
-    input_file_path = r'word_freq\bilibili\word_counts.txt'  # 你的输入文件路径
-    output_file_path = r'word_freq\merged_word_counts.txt'  # 输出文件路径
+    input_file_path = r'word_freq\shuiyuan\word_counts.txt'  # 你的输入文件路径
+    output_file_path = r'word_freq\shuiyuan\merged_word_counts.txt'  # 输出文件路径
     
     # 读取并合并词频
     word_counts = read_word_counts_from_file(input_file_path)
