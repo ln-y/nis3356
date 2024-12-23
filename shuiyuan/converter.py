@@ -10,12 +10,14 @@ class Comment:
     parent_id: int
     son_ids : list[int]
     likes : int
+    original_index: int
     
-    def __init__(self, created_at, content, parent_id, likes, son_ids=None):
+    def __init__(self, created_at, content, parent_id, likes, original_index, son_ids=None):
         self.time = created_at
         self.content = content
         self.parent_id = parent_id
         self.likes = likes
+        self.original_index = original_index
         self.son_ids = son_ids if son_ids else []
 
 PostComments = list[Comment]
@@ -40,11 +42,19 @@ def convert(data_list) -> PostComments:
         created_at = datetime.strptime(data['created_at'], '%Y-%m-%dT%H:%M:%S.%fZ').timestamp()
         content = data['raw']
         try:
-            parent_id = data['reply_to_post_number'] - 1
+            parent_original_id = data['reply_to_post_number']
+            for comment in comment_list:
+                if comment.original_index == parent_original_id:
+                    parent_id = comment_list.index(comment)
+                    break
         except Exception:
             parent_id = None
         likes = data['likes']
-        comment = Comment(created_at, content, parent_id, likes)
+        original_index = data['original_index']
+        try:
+            comment = Comment(created_at, content, parent_id, likes, original_index)
+        except Exception:
+            comment = Comment(created_at, content, None, likes, original_index)
         comment_list.append(comment)
         comment_dict[len(comment_list) - 1] = comment
     for i, comment in enumerate(comment_list):

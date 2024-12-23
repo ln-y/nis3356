@@ -8,6 +8,7 @@ class Comment:
     parent_id: 'int | None '# 父评论索引
     son_ids : list[int] # 子评论索引
     likes : int # 该评论的点赞数
+    original_id: int
 
     def __str__(self):
         return f"Comment:\ntime={self.time}\ncontent={self.content}\nparent_id={self.parent_id}\nson_ids={self.son_ids}\nlikes={self.likes}"

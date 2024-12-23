@@ -81,21 +81,23 @@ class ShuiyuanClient:
 
 
 
-    def sanitize_reply(self, reply):
+    def sanitize_reply(self, reply, original_index):
         try: 
             simplified_reply = {
             "created_at": reply["created_at"],
             "reply_count": reply["reply_count"],
             "reply_to_post_number": reply["reply_to_post_number"],
             "raw": reply["raw"],
-            "likes": reply["actions_summary"][0]["count"]
+            "likes": reply["actions_summary"][0]["count"],
+            "original_index": original_index
         }
         except KeyError:
             simplified_reply = {
             "created_at": reply["created_at"],
             "reply_count": reply["reply_count"],
             "raw": reply["raw"],
-            "likes": 0
+            "likes": 0,
+            "original_index": original_index
         }
         return simplified_reply
     
@@ -104,7 +106,7 @@ class ShuiyuanClient:
         for i in range(1, reply_number + 1):
             reply = self.fetch_reply(post_number, i)
             if reply:
-                results.append(self.sanitize_reply(reply))
+                results.append(self.sanitize_reply(reply, reply_number))
         
         # Create the directory if it doesn't exist
         data_dir = 'data'
@@ -151,7 +153,7 @@ def main():
         post_number = post["id"]
         reply_number = post["reply"]
         client.fetch_post(post_number, reply_number)
-        print(f"Successfully saved data of post {post["id"]}.")
+        print(f"Successfully saved data of post {post_number}.")
 
 if __name__ == "__main__":
     main()
