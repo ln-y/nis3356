@@ -5,7 +5,7 @@ import pickle
 class Comment:
     time: float # 发布时间(时间戳单位s)
     content : str # 评论内容
-    parent_id: int # 父评论索引
+    parent_id: 'int | None '# 父评论索引
     son_ids : list[int] # 子评论索引
     likes : int # 该评论的点赞数
 
@@ -35,5 +35,5 @@ if __name__ == "__main__":
     # please check your data before upload
     import os
     work_dir = os.path.dirname(__file__)
-    data_path = os.path.join(work_dir, r"douyin\douyin\processed_data\pkl\7380262636904041768.pkl")
+    data_path = os.path.join(work_dir, r"")
     check_your_data(data_path)
