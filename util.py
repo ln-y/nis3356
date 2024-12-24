@@ -8,13 +8,21 @@ class Comment:
     parent_id: 'int | None '# 父评论索引
     son_ids : list[int] # 子评论索引
     likes : int # 该评论的点赞数
-    original_id: int
 
     def __str__(self):
         return f"Comment:\ntime={self.time}\ncontent={self.content}\nparent_id={self.parent_id}\nson_ids={self.son_ids}\nlikes={self.likes}"
 
 # 每个评论/帖子的所有评论应该被放置在一个列表中。父、子评论索引即为其在该列表中的索引。
 PostComments = list[Comment]
+
+@dataclass
+class CommentInfo:
+    emotion: str
+    comments: Comment
+
+sentiment_choice = ["Appreciation", "Empathy", "Anger", "Skeypticism", "Sarcasm", "Analysis"]
+# sentiment_choice = ["Appreciation", "Empathy", "Anger", "Skepticism", "Sarcasm", "Objective", "Irrelevant","Advocacy"]
+PostCommentsInfo = list[CommentInfo]
 
 def load_post_comments(file_path: str) -> PostComments:
     with open(file_path, "rb") as f:
