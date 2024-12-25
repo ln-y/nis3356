@@ -33,6 +33,9 @@ def get_all_talk(comment_lst: PostComments, max_num = 16384) -> list[str]:
             talk_lst.append("\n".join(tmp_lst))
             now_num = 0
             tmp_lst = []
+    else:
+        if tmp_lst:
+            talk_lst.append("\n".join(tmp_lst))
     return talk_lst
 
 shuiyuan_data_dir = os.path.join(work_dir, "../shuiyuan/data")
@@ -42,7 +45,9 @@ douyin_data_dir = os.path.join(work_dir, "../douyin/douyin/douyin_list/processed
 dir_dict = {"shuiyuan": shuiyuan_data_dir,"bilibili": bilibili_data_dir,"douyin": douyin_data_dir}
 
 all_post_str = []
+platformid_dic = {key:-1 for key in dir_dict}
 for key_dir, dir in dir_dict.items():
+    platformid_dic[key_dir] = len(all_post_str)
     pkl_lst = os.listdir(dir)
     for pkli in tqdm(pkl_lst):
         if pkli.endswith(".pkl"):
@@ -50,7 +55,8 @@ for key_dir, dir in dir_dict.items():
             talk_dic = parse_talk(post_comments)
             with open(f"{data_dir}/{key_dir}_{pkli.split('.')[0]}.pkl","wb") as f:
                 pickle.dump(talk_dic, f)
-            all_post_str.extend(get_all_talk(post_comments))
+            new_comment_lst = get_all_talk(post_comments,32768)
+            all_post_str.extend(new_comment_lst)
     else:
         with open(f"{data_dir}/{key_dir}_{pkli.split('.')[0]}.json","w", encoding='utf-8') as f:
                 json.dump(talk_dic, f, indent=4, ensure_ascii=False)
@@ -61,3 +67,5 @@ with open(f"{data_dir}/all_post_str.pkl","wb") as f:
 
 with open(f"{data_dir}/all_post_str.json","w", encoding='utf-8') as f:
     json.dump(all_post_str, f, indent=4, ensure_ascii=False)
+
+print(platformid_dic)

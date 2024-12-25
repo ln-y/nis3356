@@ -1,32 +1,33 @@
-from ..util import CommentInfo, sentiment_choice
+from ..util import CommentInfo, view_choice
 
 import pickle
 import os
 
+view_choice.remove('无法判断')
 work_dir = os.path.dirname(__file__)
-sentiment_choice.remove("Unable to Determine")
-out_data_lst = os.listdir(f"{work_dir}/out_data")
+file_dir = f"{work_dir}/out_data"
+out_data_lst = os.listdir(file_dir)
 
 emotion_topic_dic :dict[str, dict[str,int]]={}
-time_gap = 86400*15
+time_gap = 86400*10
 time_emotion_dic : dict[str, dict[str, dict[int, int]]] = {} # {platform: {emotion : {time : count}}}
 for fi in out_data_lst:
     if fi.endswith(".pkl"):
         platformi = fi.split("_")[0]
         if platformi not in time_emotion_dic.keys():
-            time_emotion_dic[platformi] = {i: {} for i in sentiment_choice}
-        emotion_topic_dic[fi.split(".")[0]] = {i:0 for i in sentiment_choice}
+            time_emotion_dic[platformi] = {i: {} for i in view_choice}
+        emotion_topic_dic[fi.split(".")[0]] = {i:0 for i in view_choice}
         now_dic = emotion_topic_dic[fi.split(".")[0]]
-        with open(f"{work_dir}/out_data/{fi}","rb") as f:
+        with open(f"{file_dir}/{fi}","rb") as f:
             data : list[CommentInfo]= pickle.load(f)
             for comment in data:
-                if comment.emotion == "Unable to Determine":
+                if comment.viewpoint == "无法判断":
                     continue
-                now_dic[comment.emotion]+=1
+                now_dic[comment.viewpoint]+=1
                 time_begin_num = int(comment.comments.time/time_gap)*time_gap
-                time_emotion_dic[platformi][comment.emotion][time_begin_num] = time_emotion_dic[platformi][comment.emotion].get(time_begin_num, 0) + 1
+                time_emotion_dic[platformi][comment.viewpoint][time_begin_num] = time_emotion_dic[platformi][comment.viewpoint].get(time_begin_num, 0) + 1
 
-time_emotion_dic["total"] = {i: {} for i in sentiment_choice}
+time_emotion_dic["total"] = {i: {} for i in view_choice}
 for key in time_emotion_dic.keys():
     if key != "total":
         for ki, vi in time_emotion_dic[key].items():
@@ -68,11 +69,11 @@ def draw_time_chart(data:dict[str, dict[str, dict[int, int]]]):
         plt.title(f"{platformi} 情感随时间变化")
         plt.xlabel('时间')
         plt.ylabel('评论数量')
-        x_tick_place = [i for i in range(min_time, max_time+1, time_gap) if i%(86400*15)==0]
+        x_tick_place = [i for i in range(min_time, max_time+1, 86400*15)]
         x_tick_label = [datetime.datetime.fromtimestamp(i).strftime('%Y-%m-%d') for i in x_tick_place]
         plt.xticks(x_tick_place, x_tick_label, rotation=35, fontsize = 8)
         plt.legend()
-        plt.savefig(f"{work_dir}/time_chart_{platformi}.png", dpi=320)
+        plt.savefig(f"{work_dir}/time_view_{platformi}.png", dpi=320)
         plt.cla()
 
 def draw_bar_chart(save_path, data, title, x_label, y_label, x_label_name):
@@ -120,11 +121,11 @@ def draw_bar_chart(save_path, data, title, x_label, y_label, x_label_name):
     plt.cla()
 
 keys = list(platform_dic.keys()) + ["total"]
-platform_dic["total"] = {i:0 for i in sentiment_choice}
+platform_dic["total"] = {i:0 for i in view_choice}
 for ki, vi in platform_dic.items():
     for ki2, vi2 in vi.items():
         platform_dic["total"][ki2]+=vi2
 
-paltform_draw_data = {ki: [vi[i] for i in sentiment_choice] for ki, vi in platform_dic.items()}
-draw_bar_chart(f"{work_dir}/platform_bar.png", paltform_draw_data, "不同平台情感分布", keys, sentiment_choice, "平台")
+paltform_draw_data = {ki: [vi[i] for i in view_choice] for ki, vi in platform_dic.items()}
+draw_bar_chart(f"{work_dir}/platform_bar_view.png", paltform_draw_data, "不同平台观点分布", keys, view_choice, "平台")
 draw_time_chart(time_emotion_dic)

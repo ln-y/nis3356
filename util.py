@@ -18,10 +18,11 @@ PostComments = list[Comment]
 @dataclass
 class CommentInfo:
     emotion: str
+    viewpoint: str
     comments: Comment
 
-sentiment_choice = ["Appreciation", "Empathy", "Anger", "Skeypticism", "Sarcasm", "Analysis"]
-# sentiment_choice = ["Appreciation", "Empathy", "Anger", "Skepticism", "Sarcasm", "Objective", "Irrelevant","Advocacy"]
+sentiment_choice = ["Anger","Sympathy", "Appreciation", "Sadness", "Surprise", "Confusion", "Amusement","Unable to Determine"]
+view_choice = ["认可", "质疑", "批判", "反思", "无法判断"]
 PostCommentsInfo = list[CommentInfo]
 
 def load_post_comments(file_path: str) -> PostComments:
