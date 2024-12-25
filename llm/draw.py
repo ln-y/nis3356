@@ -119,12 +119,17 @@ def draw_bar_chart(save_path, data, title, x_label, y_label, x_label_name):
     plt.savefig(save_path,dpi=320)
     plt.cla()
 
-keys = list(platform_dic.keys()) + ["total"]
+platformname2key_dic = {
+    "bilibili": "bilibili",
+    "douyin": "抖音",
+    "shuiyuan": "水源社区",
+    "total": "total"
+}
 platform_dic["total"] = {i:0 for i in sentiment_choice}
 for ki, vi in platform_dic.items():
     for ki2, vi2 in vi.items():
         platform_dic["total"][ki2]+=vi2
 
-paltform_draw_data = {ki: [vi[i] for i in sentiment_choice] for ki, vi in platform_dic.items()}
-draw_bar_chart(f"{work_dir}/platform_bar.png", paltform_draw_data, "不同平台情感分布", keys, sentiment_choice, "平台")
-draw_time_chart(time_emotion_dic)
+paltform_draw_data = {platformname2key_dic[ki]: [vi[i] for i in sentiment_choice] for ki, vi in platform_dic.items()}
+draw_bar_chart(f"{work_dir}/platform_bar_emotion.png", paltform_draw_data, "不同平台观点分布", paltform_draw_data.keys(), sentiment_choice, "平台")
+draw_time_chart({platformname2key_dic[ki]: vi for ki, vi in time_emotion_dic.items()})
