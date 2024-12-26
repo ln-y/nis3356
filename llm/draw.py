@@ -8,7 +8,7 @@ sentiment_choice.remove("Unable to Determine")
 out_data_lst = os.listdir(f"{work_dir}/out_data")
 
 emotion_topic_dic :dict[str, dict[str,int]]={}
-time_gap = 86400*15
+time_gap = 86400*10
 time_emotion_dic : dict[str, dict[str, dict[int, int]]] = {} # {platform: {emotion : {time : count}}}
 for fi in out_data_lst:
     if fi.endswith(".pkl"):
@@ -68,7 +68,7 @@ def draw_time_chart(data:dict[str, dict[str, dict[int, int]]]):
         plt.title(f"{platformi} 情感随时间变化")
         plt.xlabel('时间')
         plt.ylabel('评论数量')
-        x_tick_place = [i for i in range(min_time, max_time+1, time_gap) if i%(86400*15)==0]
+        x_tick_place = [i-time_gap/2 for i in range(min_time, max_time+1, time_gap)]
         x_tick_label = [datetime.datetime.fromtimestamp(i).strftime('%Y-%m-%d') for i in x_tick_place]
         plt.xticks(x_tick_place, x_tick_label, rotation=35, fontsize = 8)
         plt.legend()
@@ -131,5 +131,5 @@ for ki, vi in platform_dic.items():
         platform_dic["total"][ki2]+=vi2
 
 paltform_draw_data = {platformname2key_dic[ki]: [vi[i] for i in sentiment_choice] for ki, vi in platform_dic.items()}
-draw_bar_chart(f"{work_dir}/platform_bar_emotion.png", paltform_draw_data, "不同平台观点分布", paltform_draw_data.keys(), sentiment_choice, "平台")
+draw_bar_chart(f"{work_dir}/platform_bar_emotion.png", paltform_draw_data, "不同平台情感分布", paltform_draw_data.keys(), sentiment_choice, "平台")
 draw_time_chart({platformname2key_dic[ki]: vi for ki, vi in time_emotion_dic.items()})

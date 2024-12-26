@@ -7,7 +7,7 @@ from ..util import PostComments, load_post_comments, save_post_comments, Comment
 work_dir = os.path.dirname(__file__)
 with open(f"{work_dir}/emotion_new_cache10.json", "r", encoding="utf-8") as f:
     emotion = json.load(f)
-with open(f"{work_dir}/viewpoint2_.json", "r", encoding="utf-8") as f:
+with open(f"{work_dir}/viewpoint3.json", "r", encoding="utf-8") as f:
     views = json.load(f)
 
 output_dir = f"{work_dir}/out_data"

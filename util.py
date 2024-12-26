@@ -22,7 +22,7 @@ class CommentInfo:
     comments: Comment
 
 sentiment_choice = ["Anger","Sympathy", "Appreciation", "Sadness", "Surprise", "Confusion", "Amusement","Unable to Determine"]
-view_choice = ["认可", "质疑", "批判", "反思", "无法判断"]
+view_choice = ["认可", "质疑", "批判", "反思", "讽刺", "无法判断"]
 PostCommentsInfo = list[CommentInfo]
 
 def load_post_comments(file_path: str) -> PostComments:

@@ -66,10 +66,10 @@ def draw_time_chart(data:dict[str, dict[str, dict[int, int]]]):
                 count_list = [data[platformi][emotioni][timei] for timei in time_list]
                 plt.plot(time_list, count_list, label=emotioni)
         
-        plt.title(f"{platformi} 情感随时间变化")
+        plt.title(f"{platformi} 评论观点随时间变化")
         plt.xlabel('时间')
         plt.ylabel('评论数量')
-        x_tick_place = [i for i in range(min_time, max_time+1, 86400*15)]
+        x_tick_place = [i-time_gap/2 for i in range(min_time, max_time+1, time_gap)]
         x_tick_label = [datetime.datetime.fromtimestamp(i).strftime('%Y-%m-%d') for i in x_tick_place]
         plt.xticks(x_tick_place, x_tick_label, rotation=35, fontsize = 8)
         plt.legend()
