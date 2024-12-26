@@ -19,10 +19,12 @@ PostComments = list[Comment]
 class CommentInfo:
     emotion: str
     viewpoint: str
+    target: str
     comments: Comment
 
 sentiment_choice = ["Anger","Sympathy", "Appreciation", "Sadness", "Surprise", "Confusion", "Amusement","Unable to Determine"]
 view_choice = ["认可", "质疑", "批判", "反思", "讽刺", "无法判断"]
+targets_choice = ["姜萍", "王闰秋", "阿里巴巴", "新闻媒体", "教育制度", "其他评论者", "无法判断"]
 PostCommentsInfo = list[CommentInfo]
 
 def load_post_comments(file_path: str) -> PostComments:

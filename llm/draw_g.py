@@ -63,8 +63,10 @@ def draw_time_chart(data:dict[str, dict[str, dict[int, int]]]):
             if time_list:
                 min_time = min(min_time, time_list[0]) if min_time != -1 else time_list[0]
                 max_time = max(max_time, time_list[-1]) if max_time != -1 else time_list[-1]
-                count_list = [data[platformi][emotioni][timei] for timei in time_list]
-                plt.plot(time_list, count_list, label=emotioni)
+        draw_time_lst = list(range(min_time, max_time+1, time_gap))
+        for emotioni in data[platformi].keys():
+            count_list = [data[platformi][emotioni].get(timei, 0) for timei in draw_time_lst]
+            plt.plot(draw_time_lst, count_list, label=emotioni)
         
         plt.title(f"{platformi} 评论观点随时间变化")
         plt.xlabel('时间')
