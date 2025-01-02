@@ -22,6 +22,16 @@ def parse_talk(comment_lst: PostComments) -> dict[int, str]:
         talk_dict[key] = talk_dict[key]+f"\n[Last Comment]\ncomment{key}:\"{comment_lst[int(key)].content}\"\n\nNow, classify the sentiment of last comment."
     return talk_dict
 
+def get_a_talk(comment_lst: PostComments) -> str:
+    for ind, comment in tqdm(enumerate(comment_lst),total=len(comment_lst),leave=False):
+        if comment.son_ids:
+            for son_id in comment.son_ids:
+                if comment_lst[son_id].son_ids:
+                    tar_comment = comment_lst[ind]
+                    print(f"comment{ind}:\"{comment.content}\"")
+                    breakpoint()
+
+
 def get_all_talk(comment_lst: PostComments, max_num = 16384) -> list[str]:
     talk_lst = []
     tmp_lst = []
@@ -53,6 +63,7 @@ for key_dir, dir in dir_dict.items():
         if pkli.endswith(".pkl"):
             post_comments = load_post_comments(os.path.join(dir, pkli))
             talk_dic = parse_talk(post_comments)
+            get_a_talk(post_comments)
             with open(f"{data_dir}/{key_dir}_{pkli.split('.')[0]}.pkl","wb") as f:
                 pickle.dump(talk_dic, f)
             new_comment_lst = get_all_talk(post_comments,32768)

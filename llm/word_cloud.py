@@ -39,7 +39,7 @@ def get_freq(text):
 
     filtered_words = [word for word in all_words if word not in stopwords]
     filtered_word_freq = Counter(filtered_words)
-
+    print(filtered_word_freq.most_common(10))
     return filtered_word_freq
 plt.rcParams['font.sans-serif'] = ['FangSong'] 
 def draw_bar_chart(save_path, data, title, x_label, y_label, x_label_name):
@@ -99,32 +99,32 @@ plt.imshow(wordcloud, interpolation='bilinear')
 plt.axis('off')  # 不显示坐标轴
 plt.savefig("emotion.png",dpi=480)
 
-shuiyuan_chars = '\n'.join(output_lst[:31])
-bilibili_chars = '\n'.join(output_lst[31:115])
-douyin_chars = '\n'.join(output_lst[115:])
+# shuiyuan_chars = '\n'.join(output_lst[:31])
+# bilibili_chars = '\n'.join(output_lst[31:115])
+# douyin_chars = '\n'.join(output_lst[115:])
 
-dic_char = {
-    "shuiyuan": shuiyuan_chars,
-    "bilibili": bilibili_chars,
-    "douyin": douyin_chars,
-    "all": all_chars
-}
-all_key_set = set()
-res_dic = {}
-for key,val in dic_char.items():
-    freq_dic = get_freq(val).most_common()
-    others_num = sum([i[1] for i in freq_dic[9:]])
-    new_freq_dic = freq_dic[:8] + [("Others", others_num)]
-    res_dici = {i[0]:i[1] for i in new_freq_dic}
-    res_dic[key] = res_dici
-    all_key_set = all_key_set | set(res_dici.keys())
-data_dic = {}
-all_key_set.remove('Others')
-all_key_lst = list(all_key_set)
-all_key_lst.sort()
-for key,val in res_dic.items():
-    data_dic[key] = [val.get(i, 0) for i in all_key_lst]
-draw_bar_chart("platform.png", data_dic, "各平台情感词频", list(dic_char.keys()), all_key_lst, "平台")
+# dic_char = {
+#     "shuiyuan": shuiyuan_chars,
+#     "bilibili": bilibili_chars,
+#     "douyin": douyin_chars,
+#     "all": all_chars
+# }
+# all_key_set = set()
+# res_dic = {}
+# for key,val in dic_char.items():
+#     freq_dic = get_freq(val).most_common()
+#     others_num = sum([i[1] for i in freq_dic[9:]])
+#     new_freq_dic = freq_dic[:8] + [("Others", others_num)]
+#     res_dici = {i[0]:i[1] for i in new_freq_dic}
+#     res_dic[key] = res_dici
+#     all_key_set = all_key_set | set(res_dici.keys())
+# data_dic = {}
+# all_key_set.remove('Others')
+# all_key_lst = list(all_key_set)
+# all_key_lst.sort()
+# for key,val in res_dic.items():
+#     data_dic[key] = [val.get(i, 0) for i in all_key_lst]
+# draw_bar_chart("platform.png", data_dic, "各平台情感词频", list(dic_char.keys()), all_key_lst, "平台")
 
 
 

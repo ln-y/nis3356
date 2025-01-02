@@ -1,0 +1,1 @@
+model_name = "Qwen/Qwen2___5-7B-Instruct"
